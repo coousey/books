@@ -3,78 +3,34 @@
 
 <body>
     <section>
-        <h2> bla</h2>
-
-        <select ng-model="data.selectedGenre" ng-change='updateBookList(data.selectedGenre)'>
-            <option>all</option>
-            <option ng-repeat="option in data.genres" value="{{option}}">{{option}}</option>
-        </select>
-
+        <h2> books</h2>
 
         <table class='table table-hover'>
             <thead>
+                <th>id</th>
                 <th>title</th>
                 <th>author</th>
+                <th>genre</th>
+                <th>year</th>
+                <th>version</th>
             </thead>
             <tbody>
                 <tr data-ng-dblclick='edit()' data-ng-repeat='item in data.books' data-ng-click='selectRow($index)' data-ng-class='{"active": selectedRowIndex === $index}'>
+                    <td data-ng-bind="item.id"> </td>
                     <td data-ng-bind="item.title"> </td>
                     <td data-ng-bind="item.author"> </td>
+                    <td data-ng-bind="item.genre"> </td>
+                    <td data-ng-bind="item.year"> </td>
+                    <td data-ng-bind="item.version"> </td>
                 </tr>
             </tbody>
         </table>
 
-
-        <div ng-controller="DropdownCtrl">
-
-            <span uib-dropdown on-toggle="toggled(open)">
-              <a href id="simple-dropdown" uib-dropdown-toggle>
-                Click me for a dropdown, yo!
-              </a>
-              <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                <li ng-repeat="choice in items">
-                  <
-                  <a href>{{choice}}</a>
-                </li>
-              </ul>
-            </span>
-        </div> 
-
         <button data-ng-click='add()' class='btn btn-default'> add book </button>
         <button data-ng-click='edit()' data-ng-hide='selectedRowIndex === undefined' class='btn btn-default'> edit book </button>
-
 
     </section>
 
 </body>
 
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html>
-
-<body>
-    <section>
-        <h2> bla</h2>
-
-        <table class='table table-hover'>
-            <thead>
-                <th>title</th>
-                <th>author</th>
-            </thead>
-            <tbody>
-                <tr data-ng-dblclick='edit()' data-ng-repeat='item in data.books' data-ng-click='selectRow($index)' data-ng-class='{"active": selectedRowIndex === $index}'>
-                    <td data-ng-bind="item.title"> </td>
-                    <td data-ng-bind="item.author"> </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <button data-ng-click='add()' class='btn btn-default'> add book </button>
-
-    </section>
-
-</body>
-
-</html> -->

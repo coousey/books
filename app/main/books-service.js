@@ -53,9 +53,16 @@ angular.module('app.component1').service('booksService', function() {
     }];
 
     this.save = function(newBook) {
+        newBook.year = new Date(newBook.year).getFullYear();
+        newBook.id = this.findMaxId() + 1;
+        newBook.version = 0;
         this.books.push(newBook);
     };
     this.update = function(newBook, oldBook) {
+        newBook.year = new Date(newBook.year).getFullYear();
+        if (!this.isEqual(newBook, oldBook)) {
+            newBook.version++;
+        }
         angular.copy(newBook, oldBook);
     };
     this.getBooks = function() {
@@ -87,4 +94,21 @@ angular.module('app.component1').service('booksService', function() {
         }
         return result;
     };
+
+    this.findMaxId = function() {
+        var id = 0;
+        for (var i in this.books) {
+            if (this.books[i].id > id) {
+                id = this.books[i].id;
+            }
+        }
+        return id;
+    };
+
+    this.isEqual = function(a, b) {
+        return a.title === b.title &&
+            a.author === b.author &&
+            a.year === b.year &&
+            a.genre === b.genre;
+    }
 });

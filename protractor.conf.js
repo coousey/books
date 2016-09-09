@@ -6,5 +6,6 @@ exports.config = {
     jasmineNodeOpts: {
         showColors: true,
         isVerbose: true
-    }
+    },
+    specs: ['e2e/*e2e-spec.js']
 };

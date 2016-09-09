@@ -1,0 +1,49 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head lang='en'>
+    <meta charset='UTF-8'>
+    <title></title>
+</head>
+
+<body>
+    <div class='modal-content'>
+        <div class='modal-header'>
+            <h3 class='modal-title' data-ng-bind='data.func'/>
+        </div>
+        <div class='modal-body'>
+
+            <form name='data.form'>
+                <div class='form-group' data-ng-class='{"has-error ng-danger": data.form.newTitle.$invalid}'>
+                    <input name='newTitle' class='form-control' data-ng-required='true' type='text' data-ng-model='data.newBook.title' />
+                </div>
+                <div class='form-group' data-ng-class='{"has-error ng-danger": data.form.newAuthor.$invalid}'>
+                    <input name='newAuthor' class='form-control' data-ng-required='true' type='text' data-ng-model='data.newBook.author' />
+                </div>
+                <div class='form-group'>
+                    <input name='newGenre' class='form-control' data-ng-required='false' type='text' data-ng-model='data.newBook.genre' />
+                </div>
+                <div class='form-group'>
+                    <p class='input-group'>
+                        <input ng-readonly='true' data-ng-required='false' type='text' class='form-control' init-date='data.newBook.year' uib-datepicker-popup='yyyy'
+                         ng-model='data.newBook.year' is-open='status.opened' min-date='minDate' max-date='maxDate' datepicker-options='dateOptions'
+                            date-disabled='disabled(date, mode)' close-text='Close' />
+                        <span class='input-group-btn'>
+                        <button type='button' class='btn btn-default' ng-click='open($event)'><i class='glyphicon glyphicon-calendar'></i></button>
+                    </span>
+                    </p>
+                </div>
+
+                <div class='form-group'>
+                    <button name="ok" type='submit' class='btn btn-primary' data-ng-click='ok()' ng-disabled='data.form.$invalid'> OK </button>
+                    <button type='submit' class='btn btn-danger' data-ng-click='close()' > cancle </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

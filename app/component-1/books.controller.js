@@ -1,70 +1,100 @@
-angular.module('app.component1').controller('BooksController', function($scope, $http, $modal, booksService) {
-        'use strict';
+angular.module('app.component1').controller('BooksController', function($scope, $modal, $http, booksService) {
+    'use strict';
 
-        $scope.data = {
-            books: [],
-            genres: [],
-            selectedGenre: 'all'
-        };
+    $scope.data = {
+        books: []
+    };
 
-        $scope.data.books = booksService.getBooks();
-        $scope.data.genres = booksService.getGenres();
+    $scope.data.books = booksService.getBooks();
+    $scope.selectedRowIndex;
 
-        $scope.selectedRowIndex;
-
-        $scope.edit = function() {
-            $modal.open({
-                templateUrl: '/component-1/modal-dialog/modal-edit-dialog.tpl.html',
-                controller: 'EditModalController',
-                size: 'lg',
-                resolve: {
-                    selectedBook: function() {
-                        return $scope.data.books[$scope.selectedRowIndex];
-                    }
+    $scope.edit = function() {
+        $modal.open({
+            templateUrl: '/component-1/modal-dialog/modal-dialog.tpl.html',
+            controller: 'ModalController',
+            size: 'lg',
+            resolve: {
+                selectedBook: function() {
+                    return $scope.data.books[$scope.selectedRowIndex];
+                },
+                func: function() {
+                    return 'edit';
                 }
-            });
-        };
+            }
+        });
+    };
 
-        $scope.add = function() {
-            $modal.open({
-                templateUrl: '/component-1/modal-dialog/modal-add-dialog.tpl.html',
-                controller: 'AddModalController'
-            });
-        };
+    $scope.add = function() {
+        $modal.open({
+            templateUrl: '/component-1/modal-dialog/modal-dialog.tpl.html',
+            controller: 'ModalController',
+            size: 'lg',
+            resolve: {
+                selectedBook: function() {
+                    return {};
+                },
+                func: function() {
+                    return 'add';
+                }
+            }
+        });
+    };
 
-        $scope.selectRow = function(index) {
-            $scope.selectedRowIndex = index;
-        };
+    $scope.selectRow = function(index) {
+        $scope.selectedRowIndex = index;
+    };
 
-        $scope.updateBookList = function(genre) {
-            $scope.data.books = booksService.getBooksByGenre(genre);
-        };
+}).controller('ModalController', function($scope, $modal, $modalInstance, selectedBook, booksService, func) {
+    'use strict';
 
-    })
-    .controller('AddModalController', function($scope, $modalInstance, booksService) {
-        'use strict';
+    $scope.data = {
+        newBook: {},
+        func: func
+    };
 
-        $scope.data = {
-            newBook: {}
-        };
+    if (func === 'edit') {
+        angular.copy(selectedBook, $scope.data.newBook);
+        $scope.data.newBook.year = new Date($scope.data.newBook.year + '-01-01');
+    }
+    if (func === 'add') {
+        $scope.data.newBook.year = new Date();
+    }
 
-        $scope.add = function(newBook) {
-            booksService.save(newBook);
-            $modalInstance.close();
-        };
+    $scope.ok = function() {
+        if (func === 'add') {
+            $scope.add();
+        } else if (func === 'edit') {
+            $scope.edit();
+        }
+        $modalInstance.close();
+    };
 
-    }).controller('EditModalController', function($scope, $modalInstance, selectedBook, booksService) {
-        'use strict';
+    $scope.add = function() {
+        booksService.save($scope.data.newBook);
 
-        $scope.data = {
-            selectedBook: {}
-        };
+        
+    };
 
-        angular.copy(selectedBook, $scope.data.selectedBook);
+    $scope.edit = function() {
+        booksService.update($scope.data.newBook, selectedBook);
+    };
 
-        $scope.update = function(newBook) {
-            booksService.update(newBook, selectedBook);
-            $modalInstance.close();
-        };
+    $scope.close = function() {
+        $modalInstance.close();
+    };
 
-    });
+    $scope.dateOptions = {
+        datepickerMode: '"year"',
+        minMode: '"year"',
+        showWeeks: 'false'
+    };
+
+    $scope.status = {
+        opened: false
+    };
+
+    $scope.open = function() {
+        $scope.status.opened = true;
+    };
+
+});

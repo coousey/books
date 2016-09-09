@@ -1,1 +1,25 @@
-<h2>Hello from Dialog B!</h2>
+<section>
+    <h2> books by genre</h2>
+
+    <table class='table table-hover'>
+        <thead>
+            <th>id</th>
+            <th>title</th>
+            <th>author</th>
+            <th>genre</th>
+            <th>year</th>
+            <th>version</th>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat='item in data.books'>
+                <td data-ng-bind="item.id"> </td>
+                <td data-ng-bind="item.title"> </td>
+                <td data-ng-bind="item.author"> </td>
+                <td data-ng-bind="item.genre"> </td>
+                <td data-ng-bind="item.year"> </td>
+                <td data-ng-bind="item.version"> </td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
